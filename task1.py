@@ -22,9 +22,9 @@ def get_days_from_today(date):
 
 
 
-#Usage
-date_in_future = dt.today() + td(days=2)
+#Checks
+DAYS_DIFFERENCE: Final = 2
+date_in_future = dt.today() + td(days=DAYS_DIFFERENCE)
 print(get_days_from_today(date_in_future.strftime(DATE_FORMAT)))
 
-#Tests
-assert get_days_from_today(date_in_future.strftime(DATE_FORMAT)) == -2, "Date difference does not match"
+assert get_days_from_today(date_in_future.strftime(DATE_FORMAT)) == -DAYS_DIFFERENCE, "Date difference does not match"

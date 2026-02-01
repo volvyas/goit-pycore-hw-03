@@ -11,6 +11,7 @@
 # Якщо параметри не відповідають заданим обмеженням, функція повертає пустий список.
 
 import random as r
+from typing import Final 
 
 def get_numbers_ticket(min, max, quantity):
     result_list = list()
@@ -30,6 +31,10 @@ def get_numbers_ticket(min, max, quantity):
     return sorted(r.sample(range(min, max+1), quantity))
     
 
-#Usage
-print(get_numbers_ticket(1,100, 6))
+#Checks
+numbers_quantity: Final = 6
+winning_numbers = get_numbers_ticket(1,100, numbers_quantity)
+print(winning_numbers)
+
+assert len(winning_numbers) == numbers_quantity
 
