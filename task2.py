@@ -36,5 +36,5 @@ numbers_quantity: Final = 6
 winning_numbers = get_numbers_ticket(1,100, numbers_quantity)
 print(winning_numbers)
 
-assert len(winning_numbers) == numbers_quantity
+assert len(set(winning_numbers)) == numbers_quantity
 

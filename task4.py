@@ -6,12 +6,19 @@
 # Якщо день народження припадає на вихідний, дата привітання переноситься на наступний понеділок.
 # Функція повертає список словників, де кожен словник містить інформацію про користувача (ключ name)
 #  та дату привітання (ключ congratulation_date, дані якого у форматі рядка 'рік.місяць.дата').
+
 import datetime
-from typing import Final 
 from datetime import datetime as dt, timedelta as td
+from typing import Final 
 
 
 DATE_FORMAT: Final =  '%Y.%m.%d'
+
+users_l = [
+    {"name": "John Doe", "birthday": "1985.02.7"},
+    {"name": "Alex Carpenter", "birthday": "1985.02.5"},
+    {"name": "Jane Smith", "birthday": "1990.01.27"}
+]
 
 def get_upcoming_birthdays():
     current_date = dt.today().date()
@@ -37,16 +44,19 @@ def get_upcoming_birthdays():
 
 
 #Checks
-users_l = [
-    {"name": "John Doe", "birthday": "1985.02.3"},
-    {"name": "Alex Carpenter", "birthday": "1985.02.1"},
-    {"name": "Jane Smith", "birthday": "1990.01.27"}
-]
+now = dt.today() + td(days=1) # patching birthday dates to avoid time bomb, for tests only!
+birth_date = datetime.date(1985, now.month, now.day)
+weekend_day = now.day
+weekend_day += 6 - now.weekday()
+birth_date_on_weekend = datetime.date(1985, now.month, weekend_day)
+users_l[0]['birthday'] = birth_date.strftime(DATE_FORMAT)
+users_l[1]['birthday'] = birth_date_on_weekend.strftime(DATE_FORMAT)
 
 upcoming_birthdays_l = get_upcoming_birthdays()
 print(upcoming_birthdays_l)
 
-assert len(upcoming_birthdays_l) == 2
+assert len(upcoming_birthdays_l) == 2, 'Did not receive planned list'
+assert dt.strptime(upcoming_birthdays_l[1]['congratulation_date'], DATE_FORMAT).weekday() < 6, 'Second entry date should be on working day'
 
 
 
